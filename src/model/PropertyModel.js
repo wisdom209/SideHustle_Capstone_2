@@ -1,10 +1,8 @@
 const connection = require('../config/db.config')
-const { insertAdvertQuery, findbyIdInsertQuery, updateSoldQuery, selectPropertiesSql, deletePropertySql,selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findAdvertQuery} = require('../database/operations')
+const { insertAdvertQuery, findPropertyById, updateSoldQuery, selectPropertiesSql, deletePropertySql,selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findAdvertQuery} = require('../database/operations')
 
 
-//update advert
-
-
+//update advert model
 const updateAdvert = async (property) => {
 
     const {id , owner, status, price, state, city, address, type, image_url } = property;
@@ -34,8 +32,7 @@ const updateAdvert = async (property) => {
     return message
 }
 
-
-//insert a new property into db
+//select specific advert model
 const selectSpecificAdvert = async (property) => {
  
     const { id } = property;
@@ -62,10 +59,7 @@ const selectSpecificAdvert = async (property) => {
     return message
 }
 
-
-
-//insert a new property into db
-
+//select property type model
 const selectPropertyType = async (property) => {
  
     const { type } = property;
@@ -90,10 +84,7 @@ const selectPropertyType = async (property) => {
     return message
 }
 
-
-
-//view all properties
-
+//view all properties model
 const selectAllProperties = async () => {
     let message = await new Promise((resolve, reject) => {
         connection.query(selectAllPropertiesQuery, (err, result) => {
@@ -116,8 +107,7 @@ const selectAllProperties = async () => {
     return message
 }
 
-
-
+//delete a property model
 const deletePropertyFromDb = async (property) => {
  
     const { id, owner } = property;
@@ -154,7 +144,7 @@ const deletePropertyFromDb = async (property) => {
     return message
 }
 
-
+//mark a property as sold model
 const markSold = async (property) => {
  
     const {  status,owner,id } = property;
@@ -179,7 +169,7 @@ const markSold = async (property) => {
     return message
 }
 
-//insert a new property into db
+//post a property advert model
 const postAdvert = async (property) => {
     
     const { owner, status, price, state, city, address, type, image_url } = property;
@@ -189,7 +179,7 @@ const postAdvert = async (property) => {
         connection.query(insertAdvertQuery, [owner, status, price, state, city, address, type, image_url], (err, initialResult) => {
 
             if (initialResult) {
-                connection.query(findbyIdInsertQuery, [initialResult.insertId], (err, result) => {
+                connection.query(findPropertyById, [initialResult.insertId], (err, result) => {
                     if (err) {
                         resolve({
                             'message': 'error',

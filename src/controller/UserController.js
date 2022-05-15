@@ -1,5 +1,6 @@
 const { createUser,findUser } = require('../model/UserModel')
 
+//user can sign in
 const signin_post = async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -20,8 +21,7 @@ const signin_post = async (req, res, next) => {
     }
 }
 
-
-
+//user can sign up
 const signup_post = async (req, res, next) => {
     
     if (!req.body) {

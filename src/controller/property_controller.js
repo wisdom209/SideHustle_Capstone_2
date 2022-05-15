@@ -4,6 +4,7 @@ require('dotenv').config()
 const { postAdvert, markSold, deletePropertyFromDb ,selectAllProperties,selectPropertyType, selectSpecificAdvert, updateAdvert} = require('../model/PropertyModel')
 require('dotenv').config()
 
+//user can update advert
 const updatePropertyAdvert = async (req, res, next) => {
     let jsonData = JSON.parse(req.body.data)
     
@@ -36,7 +37,7 @@ const updatePropertyAdvert = async (req, res, next) => {
     }
 }
 
-
+//user can view specific advert
 const viewSpecificAdvert = async (req, res, next) => {
     
     if (!req.body) {
@@ -57,8 +58,7 @@ const viewSpecificAdvert = async (req, res, next) => {
   
 }
 
-
-
+//users can view specific type of property advert
 const viewType = async (req, res, next) => {  
 
     const type = req.query.type;
@@ -79,8 +79,6 @@ const viewType = async (req, res, next) => {
     }
 
 }
-
-
 
 //view all adverts
 const viewProperties = async (req, res, next) => {
@@ -103,8 +101,7 @@ const viewProperties = async (req, res, next) => {
 
 }
 
-//delete property advert
-
+//user can delete property advert
 const deleteProperty = async (req, res, next) => {
 
     if (!req.body) {
@@ -125,7 +122,7 @@ const deleteProperty = async (req, res, next) => {
 
 }
 
-//mark advert sold
+//user can mark advert as sold
 const markAdvertSold = async (req, res, next) => {
 
     if (!req.body || Object.keys(req.body).length === 0) {
@@ -147,8 +144,7 @@ const markAdvertSold = async (req, res, next) => {
 
 }
 
-//post advert
-
+//user can post advert
 const postPropertyAdvert = async (req, res, next) => {
 
     let jsonData = JSON.parse(req.body.data)
