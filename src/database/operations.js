@@ -17,6 +17,10 @@ const selectTypeSql = `SELECT * FROM property WHERE type = ?`
 
 const selectAdvertSql = `SELECT * FROM property WHERE id = ?`
 
+const updateAdvertQuery = `UPDATE property SET owner = ?, status = ?, price = ?, state = ?, city = ?, address = ?, type = ?, image_url = ? WHERE owner= ? AND id = ?`
+
+const findAdvertQuery = 'SELECT * FROM property WHERE id = ?'
+
 
 module.exports = {
     insertQuery, insertAdvertQuery, findbyIdInsertQuery, findUserQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery, selectTypeSql, selectAdvertSql
