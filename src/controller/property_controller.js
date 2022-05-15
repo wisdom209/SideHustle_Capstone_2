@@ -1,11 +1,66 @@
-const { postAdvert, markSold, deletePropertyFromDb, selectAllProperties, selectPropertyType } = require('../model/PropertyModel')
 const cloudinary = require('cloudinary').v2
 require('dotenv').config()
 
+const { postAdvert, markSold, deletePropertyFromDb ,selectAllProperties,selectPropertyType, selectSpecificAdvert, updateAdvert} = require('../model/PropertyModel')
+require('dotenv').config()
 
-//view type
+const updatePropertyAdvert = async (req, res, next) => {
+    let jsonData = JSON.parse(req.body.data)
+    
+    let id = req.params.id;
 
-const viewType = async (req, res, next) => {
+     
+    if (!req.body.data) {
+        res.status(400).send({
+            "status": "error",
+            "error-message": 'Content cannot be empty'
+        })
+    }
+
+    const files = req.files.photo;
+    
+    require('../config/cloudinary.config')
+
+    let imageUrl = await cloudinary.uploader.upload(files.tempFilePath,(err, result)=>{
+        return result;
+    })
+
+
+    let result = await updateAdvert({...jsonData, id: Number(id), "image_url" : imageUrl.url});
+
+    if(result.message == 'success'){
+        res.cookie('token', result.token);
+        res.status(200).json({"status" : "success", "data": result.body[0]})
+    }else{
+        res.status(400).json({"status": "error", "error-message": result.body})
+    }
+}
+
+
+const viewSpecificAdvert = async (req, res, next) => {
+    
+    if (!req.body) {
+        res.status(400).send({
+            "status": "error",
+            "error-message": 'Content cannot be empty'
+        })
+    }
+
+    let result = await selectSpecificAdvert({...req.body, 'id' : req.params.id});
+
+    if(result.message == 'success'){
+        res.cookie('token', result.token);
+        res.status(200).json({"status" : "success", "data": result.body[0]})
+    }else{
+        res.status(400).json({"status": "error", "error-message": result.body})
+    }
+  
+}
+
+
+
+const viewType = async (req, res, next) => {  
+
     const type = req.query.type;
 
     if (!req.body) {
@@ -93,8 +148,8 @@ const markAdvertSold = async (req, res, next) => {
 }
 
 //post advert
-const postPropertyAdvert = async (req, res, next) => {
 
+const postPropertyAdvert = async (req, res, next) => {
 
     let jsonData = JSON.parse(req.body.data)
 
@@ -105,10 +160,17 @@ const postPropertyAdvert = async (req, res, next) => {
         })
     }
 
+
     require('../config/cloudinary.config')
 
+
     let imageUrl = await cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
-        if (err) console.log('error :', err);
+        if (err) {
+            res.status(400).send({
+                'status' : 'error',
+                'error-message' : err
+            })
+        }
     })
 
 
@@ -126,7 +188,11 @@ const postPropertyAdvert = async (req, res, next) => {
 }
 
 module.exports = {
-    postPropertyAdvert, markAdvertSold, deleteProperty, viewProperties, viewType
+    postPropertyAdvert, markAdvertSold,
+     deleteProperty,
+     viewProperties, 
+    viewSpecificAdvert, 
+    viewType,
+    updatePropertyAdvert
 }
-
 
