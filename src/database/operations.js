@@ -24,8 +24,7 @@ const findAdvertQuery = 'SELECT * FROM property WHERE id = ?'
 
 
 module.exports = {
-    insertQuery, insertAdvertQuery, findbyIdInsertQuery, findUserQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, findAdvertQuery, updateAdvertQuery
-
+    insertQuery, insertAdvertQuery, findbyIdInsertQuery, findUserQuery, updateAdvertQuery, findAdvertQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery, selectTypeSql, selectAdvertSql
 }
 
 
