@@ -4,8 +4,10 @@ let findUserQuery = 'SELECT * FROM users WHERE email = ?';
 let insertAdvertQuery = 'INSERT INTO property (owner, status, price, state, city, address, type, image_url ) VALUES (?,?,?,?,?,?,?, ?);';
 let findbyIdInsertQuery = "SELECT * FROM property WHERE id = ?";
 
+const selectTypeSql = `SELECT * FROM property WHERE type = ?`
+
 module.exports = {
-    insertQuery, findInsertQuery, insertAdvertQuery, findbyIdInsertQuery
+    insertQuery, findInsertQuery, insertAdvertQuery, findbyIdInsertQuery, selectTypeSql
 }
 
-module.exports = { insertQuery,findUserQuery }
+

@@ -1,5 +1,36 @@
 const connection = require('../config/db.config')
-const { insertAdvertQuery, findbyIdInsertQuery} = require('../database/operations')
+const { insertAdvertQuery, findbyIdInsertQuery, selectTypeSql} = require('../database/operations')
+
+
+//view all props  type
+
+
+const selectPropertyType = async (property) => {
+ 
+    const { type } = property;
+
+    let message = await new Promise((resolve, reject) => {
+        connection.query(selectTypeSql, [type], (err, result) => {
+            if (err) {
+                resolve({
+                    'message': 'error',
+                    'body': err
+                })
+
+            } else {
+                resolve({
+                    'message': 'success',
+                    'body': result
+                })
+            }
+        }
+        )
+    })
+    return message
+}
+
+module.exports = { selectPropertyType }
+
 
 //insert a new property into db
 const postAdvert = async (property) => {
