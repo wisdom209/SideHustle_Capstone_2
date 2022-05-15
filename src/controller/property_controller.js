@@ -27,7 +27,7 @@ const viewType = async (req, res, next) => {
 
 
 const postPropertyAdvert = async (req, res, next) => {
-
+   
     let jsonData = JSON.parse(req.body.data)
 
     if (!req.body.data) {
@@ -40,7 +40,12 @@ const postPropertyAdvert = async (req, res, next) => {
     require('../config/cloudinary.config.js')
    
     let imageUrl = await cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
-        if (err) console.log('error :', err);
+        if (err) {
+            res.status(400).send({
+                'status' : 'error',
+                'error-message' : err
+            })
+        }
     })
 
 

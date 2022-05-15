@@ -34,13 +34,13 @@ module.exports = { selectPropertyType }
 
 //insert a new property into db
 const postAdvert = async (property) => {
-    console.log(property)
+    
     const { owner, status, price, state, city, address, type, image_url } = property;
 
     let message = await new Promise((resolve, reject) => {
 
         connection.query(insertAdvertQuery, [owner, status, price, state, city, address, type, image_url], (err, initialResult) => {
-            console.log("i",initialResult)
+           
             if (initialResult) {
                 connection.query(findbyIdInsertQuery, [initialResult.insertId], (err, result) => {
                     if (err) {
