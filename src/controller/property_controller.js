@@ -58,6 +58,7 @@ const viewSpecificAdvert = async (req, res, next) => {
 }
 
 
+
 const viewType = async (req, res, next) => {  
 
     const type = req.query.type;
@@ -69,21 +70,21 @@ const viewType = async (req, res, next) => {
         })
     }
 
-    let result = await selectPropertyType({...req.body, type});
+    let result = await selectPropertyType({ ...req.body, type });
 
-    if(result.message == 'success'){
-        res.status(200).json({"status" : "success", "data": result.body})
-    }else{
-        res.status(400).json({"status": "error", "error-message": result.body})
+    if (result.message == 'success') {
+        res.status(200).json({ "status": "success", "data": result.body })
+    } else {
+        res.status(400).json({ "status": "error", "error-message": result.body })
     }
-  
+
 }
 
 
 
 //view all adverts
 const viewProperties = async (req, res, next) => {
-    
+
     if (!req.body) {
         res.status(400).send({
             "status": "error",
@@ -93,19 +94,19 @@ const viewProperties = async (req, res, next) => {
 
     let result = await selectAllProperties();
 
-    if(result.message == 'success'){
+    if (result.message == 'success') {
         res.cookie('token', result.token);
-        res.status(200).json({"status" : "success", "data": result.body})
-    }else{
-        res.status(400).json({"status": "error", "error-message": result.body})
+        res.status(200).json({ "status": "success", "data": result.body })
+    } else {
+        res.status(400).json({ "status": "error", "error-message": result.body })
     }
-  
+
 }
 
 //delete property advert
 
 const deleteProperty = async (req, res, next) => {
-    
+
     if (!req.body) {
         res.status(400).send({
             "status": "error",
@@ -113,20 +114,20 @@ const deleteProperty = async (req, res, next) => {
         })
     }
 
-    let result = await deletePropertyFromDb({...req.body, 'id':req.params.id});
+    let result = await deletePropertyFromDb({ ...req.body, 'id': req.params.id });
 
-    if(result.message == 'success'){
+    if (result.message == 'success') {
         res.cookie('token', result.token);
-        res.status(200).json({"status" : "success", "data": result.body})
-    }else{
-        res.status(400).json({"status": "error", "error-message": result.body})
+        res.status(200).json({ "status": "success", "data": result.body })
+    } else {
+        res.status(400).json({ "status": "error", "error-message": result.body })
     }
-  
+
 }
 
 //mark advert sold
 const markAdvertSold = async (req, res, next) => {
-    
+
     if (!req.body || Object.keys(req.body).length === 0) {
         res.status(400).send({
             "status": "error",
@@ -134,22 +135,22 @@ const markAdvertSold = async (req, res, next) => {
         })
     }
 
-  
-    let result = await markSold({...req.body, id : req.params.id});
 
-    if(result.message == 'success'){
+    let result = await markSold({ ...req.body, id: req.params.id });
+
+    if (result.message == 'success') {
         res.cookie('token', result.token);
-        res.status(200).json({"status" : "success", "data": result.body})
-    }else{
-        res.status(400).json({"status": "error", "error-message": result.body})
+        res.status(200).json({ "status": "success", "data": result.body })
+    } else {
+        res.status(400).json({ "status": "error", "error-message": result.body })
     }
-  
+
 }
 
 //post advert
 
 const postPropertyAdvert = async (req, res, next) => {
-   
+
     let jsonData = JSON.parse(req.body.data)
 
     if (!req.body.data) {
@@ -159,8 +160,10 @@ const postPropertyAdvert = async (req, res, next) => {
         })
     }
 
-    require('../config/cloudinary.config.js')
-   
+
+    require('../config/cloudinary.config')
+
+
     let imageUrl = await cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
         if (err) {
             res.status(400).send({
