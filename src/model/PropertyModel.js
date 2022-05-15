@@ -1,8 +1,122 @@
 const connection = require('../config/db.config')
-const { insertAdvertQuery, findbyIdInsertQuery, updateSoldQuery, selectPropertiesSql, deletePropertySql} = require('../database/operations')
+const { insertAdvertQuery, findbyIdInsertQuery, updateSoldQuery, selectPropertiesSql, deletePropertySql,selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findAdvertQuery} = require('../database/operations')
+
+
+//update advert
+
+
+const updateAdvert = async (property) => {
+
+    const {id , owner, status, price, state, city, address, type, image_url } = property;
+
+    let message = await new Promise((resolve, reject) => {
+      
+        connection.query(updateAdvertQuery, [owner, status, price, state, city, address, type, image_url, owner, id], (err, initialResult) => {
+          
+            connection.query(findAdvertQuery, [id],(err, result) => {
+               
+                if (err) {
+                    resolve({
+                        'message': 'error',
+                        'body': err
+                    })
+
+                } else {
+                    resolve({
+                        'message': 'success',
+                        'body': { ...result }
+                    })
+                }
+            })
+        }
+        )
+    })
+    return message
+}
 
 
 //insert a new property into db
+const selectSpecificAdvert = async (property) => {
+ 
+    const { id } = property;
+
+   
+    let message = await new Promise((resolve, reject) => {
+        connection.query(selectAdvertSql, [id], (err, result) => {
+            if (err) {
+                resolve({
+                    'message': 'error',
+                    'body': err
+                })
+
+            } else {
+                resolve({
+                    'message': 'success',
+                    'body': { ...property, ...result }
+                })
+            }
+        }
+        )
+    })
+    return message
+}
+
+
+
+//insert a new property into db
+
+const selectPropertyType = async (property) => {
+ 
+    const { type } = property;
+
+    let message = await new Promise((resolve, reject) => {
+        connection.query(selectTypeSql, [type], (err, result) => {
+            if (err) {
+                resolve({
+                    'message': 'error',
+                    'body': err
+                })
+
+            } else {
+                resolve({
+                    'message': 'success',
+                    'body': result
+                })
+            }
+        }
+        )
+    })
+    return message
+}
+
+
+
+//view all properties
+
+const selectAllProperties = async () => {
+    let message = await new Promise((resolve, reject) => {
+        connection.query(selectAllPropertiesQuery, (err, result) => {
+            if (err) {
+                resolve({
+                    'message': 'error',
+                    'body': err
+                })
+
+            } else {
+                
+                resolve({
+                    'message': 'success',
+                    'body': result
+                })
+            }
+        }
+        )
+    })
+    return message
+}
+
+
+
 const deletePropertyFromDb = async (property) => {
  
     const { id, owner } = property;
@@ -40,8 +154,6 @@ const deletePropertyFromDb = async (property) => {
 }
 
 
-
-//insert a new property into db
 const markSold = async (property) => {
  
     const {  status,owner,id } = property;
@@ -68,12 +180,13 @@ const markSold = async (property) => {
 
 //insert a new property into db
 const postAdvert = async (property) => {
-
+    
     const { owner, status, price, state, city, address, type, image_url } = property;
 
     let message = await new Promise((resolve, reject) => {
 
         connection.query(insertAdvertQuery, [owner, status, price, state, city, address, type, image_url], (err, initialResult) => {
+
             if (initialResult) {
                 connection.query(findbyIdInsertQuery, [initialResult.insertId], (err, result) => {
                     if (err) {
@@ -104,6 +217,6 @@ const postAdvert = async (property) => {
     return message
 }
 
-module.exports = { postAdvert, markSold, deletePropertyFromDb}
+module.exports = { postAdvert, markSold, deletePropertyFromDb, selectAllProperties, selectPropertyType, selectSpecificAdvert, updateAdvert }
 
 
