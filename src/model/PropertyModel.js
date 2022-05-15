@@ -1,4 +1,4 @@
-const connection = require('../config/db.config')<<<<<<< can_post_property_advert
+const connection = require('../config/db.config')
 const { insertAdvertQuery, findbyIdInsertQuery, selectTypeSql} = require('../database/operations')
 
 
