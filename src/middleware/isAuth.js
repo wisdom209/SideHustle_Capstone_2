@@ -8,7 +8,7 @@ const isAuth = (req, res, next) => {
     if (isUser) {
         next()
     } else {
-        res.status(400).json({ message: 'unauthorized user' })
+        res.status(400).json({'status': 'error', 'error-message': 'unauthorized user' })
     }
 
 }
