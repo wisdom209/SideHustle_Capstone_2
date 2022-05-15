@@ -54,7 +54,7 @@ const createUser = async (user) => {
     let hashedPassword = await passwordHasher(password)
 
     let message = await new Promise((resolve, reject) => {
-        console.log(hashedPassword)
+        
         connection.query(insertQuery, [first_name, last_name, email, hashedPassword, phone, address, is_Admin], (err, result) => {
             if (err) {
                 if (err.code == 'ER_DUP_ENTRY') {
