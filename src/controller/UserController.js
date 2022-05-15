@@ -1,4 +1,25 @@
-const { createUser } = require('../model/UserModel')
+const { createUser,findUser } = require('../model/UserModel')
+
+const signin_post = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!req.body) {
+        res.status(400).send({
+            message: 'Content cannot be empty'
+        })
+    }
+
+    let message = await findUser({email,password});
+
+    res.cookie('token', message.token)
+    
+    if(message.status == 'error'){
+        res.status(400).json( {"status": "error", "error-message" : message.body})
+    }else{
+        res.status(200).json({'status': 'success', 'data': message.body})
+    }
+}
+
 
 
 const signup_post = async (req, res, next) => {
@@ -22,7 +43,7 @@ const signup_post = async (req, res, next) => {
 }
 
 module.exports = {
-    signup_post
+    signup_post, signin_post
 }
 
 
