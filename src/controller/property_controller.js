@@ -18,7 +18,7 @@ const viewSpecificAdvert = async (req, res, next) => {
 
     if(result.message == 'success'){
         res.cookie('token', result.token);
-        res.status(200).json({"status" : "success", "data": result.body[0]})
+        res.status(200).json({"status" : "success", "data": result.body[0] || result.body})
     }else{
         res.status(400).json({"status": "error", "error-message": result.body})
     }
