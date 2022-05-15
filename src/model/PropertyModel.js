@@ -2,7 +2,6 @@ const connection = require('../config/db.config')
 const { insertAdvertQuery, findbyIdInsertQuery, updateSoldQuery, selectPropertiesSql, deletePropertySql,selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findAdvertQuery} = require('../database/operations')
 
 
-
 //update advert
 
 
@@ -65,6 +64,7 @@ const selectSpecificAdvert = async (property) => {
 
 
 //insert a new property into db
+
 const selectPropertyType = async (property) => {
  
     const { type } = property;
@@ -88,8 +88,6 @@ const selectPropertyType = async (property) => {
     })
     return message
 }
-
-
 
 
 
@@ -174,13 +172,13 @@ const markSold = async (property) => {
 
 //insert a new property into db
 const postAdvert = async (property) => {
-
+    
     const { owner, status, price, state, city, address, type, image_url } = property;
 
     let message = await new Promise((resolve, reject) => {
 
         connection.query(insertAdvertQuery, [owner, status, price, state, city, address, type, image_url], (err, initialResult) => {
-            
+
             if (initialResult) {
                 connection.query(findbyIdInsertQuery, [initialResult.insertId], (err, result) => {
                     if (err) {

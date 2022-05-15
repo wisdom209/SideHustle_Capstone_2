@@ -1,5 +1,7 @@
-const { postAdvert, markSold, deletePropertyFromDb ,selectAllProperties,selectPropertyType, selectSpecificAdvert, updateAdvert} = require('../model/PropertyModel')
 const cloudinary = require('cloudinary').v2
+require('dotenv').config()
+
+const { postAdvert, markSold, deletePropertyFromDb ,selectAllProperties,selectPropertyType, selectSpecificAdvert, updateAdvert} = require('../model/PropertyModel')
 require('dotenv').config()
 
 const updatePropertyAdvert = async (req, res, next) => {
@@ -57,6 +59,7 @@ const viewSpecificAdvert = async (req, res, next) => {
 
 
 const viewType = async (req, res, next) => {  
+
     const type = req.query.type;
 
     if (!req.body) {
@@ -75,6 +78,7 @@ const viewType = async (req, res, next) => {
     }
   
 }
+
 
 
 //view all adverts
@@ -143,9 +147,9 @@ const markAdvertSold = async (req, res, next) => {
 }
 
 //post advert
+
 const postPropertyAdvert = async (req, res, next) => {
    
-
     let jsonData = JSON.parse(req.body.data)
 
     if (!req.body.data) {
@@ -155,10 +159,15 @@ const postPropertyAdvert = async (req, res, next) => {
         })
     }
 
-    require('../config/cloudinary.config')
+    require('../config/cloudinary.config.js')
    
     let imageUrl = await cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
-        if (err) console.log('error :', err);
+        if (err) {
+            res.status(400).send({
+                'status' : 'error',
+                'error-message' : err
+            })
+        }
     })
 
 
@@ -183,3 +192,4 @@ module.exports = {
     viewType,
     updatePropertyAdvert
 }
+

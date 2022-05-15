@@ -62,8 +62,14 @@ tmp/
 .rts2_cache_es/
 .rts2_cache_umd/
 
+#tmp
+tmp/
+
 # Optional REPL history
 .node_repl_history
+
+#tmp files
+tmp/
 
 # Output of 'npm pack'
 *.tgz
