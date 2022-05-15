@@ -2,7 +2,6 @@ const cloudinary = require('cloudinary').v2
 require('dotenv').config()
 
 const { postAdvert, markSold, deletePropertyFromDb ,selectAllProperties,selectPropertyType, selectSpecificAdvert, updateAdvert} = require('../model/PropertyModel')
-const cloudinary = require('cloudinary').v2
 require('dotenv').config()
 
 const updatePropertyAdvert = async (req, res, next) => {

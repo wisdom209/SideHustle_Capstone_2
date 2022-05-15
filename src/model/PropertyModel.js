@@ -1,9 +1,4 @@
 const connection = require('../config/db.config')
-const { insertAdvertQuery, findbyIdInsertQuery, selectTypeSql} = require('../database/operations')
-
-
-//view all props  type
-
 const { insertAdvertQuery, findbyIdInsertQuery, updateSoldQuery, selectPropertiesSql, deletePropertySql,selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findAdvertQuery} = require('../database/operations')
 
 
