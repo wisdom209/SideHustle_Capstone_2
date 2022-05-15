@@ -1,4 +1,3 @@
-const { postAdvert,selectPropertyType } = require('../model/PropertyModel')
 const cloudinary = require('cloudinary').v2
 require('dotenv').config()
 
