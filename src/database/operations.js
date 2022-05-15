@@ -15,7 +15,6 @@ let deletePropertySql = 'SELECT * FROM PROPERTY WHERE id = ?'
 
 let selectAllPropertiesQuery= `SELECT * FROM property`;
 
-const selectTypeSql = `SELECT * FROM property WHERE type = ?`
 
 const selectAdvertSql = `SELECT * FROM property WHERE id = ?`
 
