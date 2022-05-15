@@ -1,5 +1,34 @@
 const connection = require('../config/db.config')
-const { insertAdvertQuery, findbyIdInsertQuery} = require('../database/operations')
+const { insertAdvertQuery, findbyIdInsertQuery, updateSoldQuery} = require('../database/operations')
+
+
+
+//insert a new property into db
+const markSold = async (property) => {
+ 
+    const {  status,owner,id } = property;
+
+    let message = await new Promise((resolve, reject) => {
+        connection.query(updateSoldQuery, [ status, owner, id], (err, result) => {
+            if (err) {
+                resolve({
+                    'message': 'error',
+                    'body': err
+                })
+
+            } else {
+                resolve({
+                    'message': 'success',
+                    'body': { ...property  }
+                })
+            }
+        }
+        )
+    })
+    return message
+}
+
+
 
 //insert a new property into db
 const postAdvert = async (property) => {
@@ -39,6 +68,6 @@ const postAdvert = async (property) => {
     return message
 }
 
-module.exports = { postAdvert }
+module.exports = { postAdvert, markSold}
 
 

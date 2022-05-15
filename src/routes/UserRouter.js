@@ -1,7 +1,7 @@
 const express = require('express')
 const { signup_post, signin_post } = require('../controller/UserController')
 const isValidDetails = require('../middleware/validator')
-const { postPropertyAdvert } = require('../controller/property_controller')
+const { postPropertyAdvert, markAdvertSold } = require('../controller/property_controller')
 
 const router = express.Router()
 
@@ -12,5 +12,7 @@ router.use('/auth/signup', isValidDetails);
 router.post('/auth/signup', signup_post)
 
 router.post('/property', postPropertyAdvert )
+
+router.put('/property/:id/sold', markAdvertSold )
 
 module.exports = router;
