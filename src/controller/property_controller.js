@@ -25,8 +25,7 @@ const viewType = async (req, res, next) => {
   
 }
 
-module.exports = {
-    viewType
+
 
 //view all adverts
 const viewProperties = async (req, res, next) => {

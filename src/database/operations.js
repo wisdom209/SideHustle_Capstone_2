@@ -11,7 +11,7 @@ let updateSoldQuery = `UPDATE property SET status = ? WHERE owner= ? and id = ?`
 let selectPropertiesSql = `DELETE FROM property WHERE owner = ? AND Id = ?`
 let deletePropertySql = 'SELECT * FROM PROPERTY WHERE id = ?'
 
-let selectAllPropertiesQuery= `SELECT * FROM property`;\
+let selectAllPropertiesQuery= `SELECT * FROM property`;
 
 const selectTypeSql = `SELECT * FROM property WHERE type = ?`
 
