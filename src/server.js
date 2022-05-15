@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser')
 const userRoutes = require('./routes/UserRouter')
 const fileUpload = require('express-fileupload')
 const app = express();
-const fileUpload = require('express-fileupload')
 const port = 4000;
 
 app.use(fileUpload({
