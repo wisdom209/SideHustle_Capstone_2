@@ -8,8 +8,8 @@ let findbyIdInsertQuery = "SELECT * FROM property WHERE id = ?";
 
 let updateSoldQuery = `UPDATE property SET status = ? WHERE owner= ? and id = ?`
 
-let selectPropertiesSql = `DELETE FROM property WHERE owner = ? AND Id = ?`
-let deletePropertySql = 'SELECT * FROM PROPERTY WHERE id = ?'
+let deletePropertySql = `DELETE FROM property WHERE owner = ? AND Id = ?`
+let selectPropertiesSql = 'SELECT * FROM PROPERTY WHERE id = ?'
 
 module.exports = {
     insertQuery, insertAdvertQuery, findbyIdInsertQuery, findUserQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql

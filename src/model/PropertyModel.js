@@ -17,10 +17,18 @@ const deletePropertyFromDb = async (property) => {
                     })
     
                 } else {
-                    resolve({
-                        'message': 'success',
-                        'body': { ...initialResult[0] }
-                    })
+                    if(initialResult[0]){
+                        resolve({
+                            'message': 'success',
+                            'body': { ...initialResult[0]  }
+                        })
+                    }else{
+                        resolve({
+                            'message': 'success',
+                            'body': { ...initialResult }
+                        })
+                    }
+                   
                 }
             }
             )
