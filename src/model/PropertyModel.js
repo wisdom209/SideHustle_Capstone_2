@@ -43,6 +43,7 @@ const selectSpecificAdvert = async (property) => {
    
     let message = await new Promise((resolve, reject) => {
         connection.query(selectAdvertSql, [id], (err, result) => {
+           
             if (err) {
                 resolve({
                     'message': 'error',
@@ -52,7 +53,7 @@ const selectSpecificAdvert = async (property) => {
             } else {
                 resolve({
                     'message': 'success',
-                    'body': { ...property, ...result }
+                    'body': { ...result }
                 })
             }
         }
