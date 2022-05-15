@@ -3,8 +3,12 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const userRoutes = require('./routes/UserRouter')
 const app = express();
+const fileUpload = require('express-fileupload')
 const port = 4000;
 
+app.use(fileUpload({
+    useTempFiles : true
+}))
 app.use(cors());
 app.use(cookieParser())
 app.use(express.json());

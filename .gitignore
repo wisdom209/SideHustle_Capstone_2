@@ -50,6 +50,9 @@ typings/
 # Optional npm cache directory
 .npm
 
+#hide tmp
+tmp/
+
 # Optional eslint cache
 .eslintcache
 

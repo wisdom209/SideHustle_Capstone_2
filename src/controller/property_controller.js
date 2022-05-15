@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const updatePropertyAdvert = async (req, res, next) => {
     let jsonData = JSON.parse(req.body.data)
+    
     let id = req.params.id;
 
      

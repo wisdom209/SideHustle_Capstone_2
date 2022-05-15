@@ -22,6 +22,6 @@ router.get('/property', viewProperties )
 
 router.get("/property/search?", viewType )
 
-router.post('/property/:id', updatePropertyAdvert )
+router.patch('/property/:id', updatePropertyAdvert )
 
 module.exports = router;

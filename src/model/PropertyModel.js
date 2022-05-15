@@ -13,6 +13,7 @@ const updateAdvert = async (property) => {
     let message = await new Promise((resolve, reject) => {
       
         connection.query(updateAdvertQuery, [owner, status, price, state, city, address, type, image_url, owner, id], (err, initialResult) => {
+          
             connection.query(findAdvertQuery, [id],(err, result) => {
                
                 if (err) {
@@ -179,6 +180,7 @@ const postAdvert = async (property) => {
     let message = await new Promise((resolve, reject) => {
 
         connection.query(insertAdvertQuery, [owner, status, price, state, city, address, type, image_url], (err, initialResult) => {
+            
             if (initialResult) {
                 connection.query(findbyIdInsertQuery, [initialResult.insertId], (err, result) => {
                     if (err) {
