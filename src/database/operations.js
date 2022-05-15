@@ -7,7 +7,7 @@ let findbyIdInsertQuery = "SELECT * FROM property WHERE id = ?";
 const selectTypeSql = `SELECT * FROM property WHERE type = ?`
 
 module.exports = {
-    insertQuery, findInsertQuery, insertAdvertQuery, findbyIdInsertQuery, selectTypeSql
+    insertQuery, findUserQuery, insertAdvertQuery, findbyIdInsertQuery, selectTypeSql
 }
 
 
