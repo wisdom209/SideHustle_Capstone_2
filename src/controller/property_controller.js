@@ -1,8 +1,30 @@
-const { postAdvert, markSold } = require('../model/PropertyModel')
+const { postAdvert, markSold, deletePropertyFromDb } = require('../model/PropertyModel')
 const cloudinary = require('cloudinary').v2
 require('dotenv').config()
 
+//delete property advert
 
+const deleteProperty = async (req, res, next) => {
+    
+    if (!req.body) {
+        res.status(400).send({
+            "status": "error",
+            "error-message": 'Content cannot be empty'
+        })
+    }
+
+    let result = await deletePropertyFromDb({...req.body, 'id':req.params.id});
+
+    if(result.message == 'success'){
+        res.cookie('token', result.token);
+        res.status(200).json({"status" : "success", "data": result.body})
+    }else{
+        res.status(400).json({"status": "error", "error-message": result.body})
+    }
+  
+}
+
+//mark advert sold
 const markAdvertSold = async (req, res, next) => {
     
     if (!req.body || Object.keys(req.body).length === 0) {
@@ -24,7 +46,7 @@ const markAdvertSold = async (req, res, next) => {
   
 }
 
-
+//post advert
 const postPropertyAdvert = async (req, res, next) => {
    
 
@@ -58,7 +80,7 @@ const postPropertyAdvert = async (req, res, next) => {
 }
 
 module.exports = {
-    postPropertyAdvert, markAdvertSold
+    postPropertyAdvert, markAdvertSold, deleteProperty
 }
 
 
