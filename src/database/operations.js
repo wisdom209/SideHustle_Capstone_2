@@ -11,11 +11,10 @@ let updateSoldQuery = `UPDATE property SET status = ? WHERE owner= ? and id = ?`
 let selectPropertiesSql = `DELETE FROM property WHERE owner = ? AND Id = ?`
 let deletePropertySql = 'SELECT * FROM PROPERTY WHERE id = ?'
 
-module.exports = { deleteSql, selectSql }
-
+let selectAllPropertiesQuery= `SELECT * FROM property`;
 
 module.exports = {
-    insertQuery, insertAdvertQuery, findbyIdInsertQuery, findUserQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql
+    insertQuery, insertAdvertQuery, findbyIdInsertQuery, findUserQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery
 }
 
 
