@@ -6,10 +6,11 @@ const { insertAdvertQuery, findPropertyById, updateSoldQuery, selectPropertiesSq
 const updateAdvert = async (property) => {
 
     const { id, owner, status, type, state, city, address, price, image_url } = property;
-
+    
     let message = await new Promise((resolve, reject) => {
 
         connection.query(updateAdvertQuery, [owner, status, price, state, city, address, type, image_url, owner, id], (err, initialResult) => {
+           
 
             connection.query(findUpdatedAdvertQuery, [id, owner], (err, result) => {
 

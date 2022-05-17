@@ -24,9 +24,9 @@ router.get('/property', viewProperties)
 
 router.use(isAuth)
 
-router.patch('/property/:id', updatePropertyAdvert )
-
 router.post('/property', postPropertyAdvert)
+
+router.patch('/property/:id', updatePropertyAdvert )
 
 router.patch('/property/:id/sold', markAdvertSold)
 

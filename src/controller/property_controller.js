@@ -87,14 +87,21 @@ const updatePropertyAdvert = async (req, res, next) => {
     require('../config/cloudinary.config')
 
     let imageUrl = await cloudinary.uploader.upload(files.tempFilePath, (err, result) => {
-        return result;
+        if (err) {
+            res.status(400).send({
+                'status': 'error',
+                'error-message': err
+            })
+        }
     })
 
     let id = req.params.id;
 
     let owner = decodedJwt(req.cookies.token).id;
-
-    let result = await updateAdvert({ ...jsonData, owner, id: Number(id), "image_url": imageUrl.url });
+   
+    result = await updateAdvert({ ...jsonData, owner, id: Number(id), "image_url": imageUrl.url });
+   
+    
 
     if (result.message == 'success') {
 
