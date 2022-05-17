@@ -211,7 +211,7 @@ const markSold = async (property) => {
             
                 resolve({
                     'message': 'success',
-                    'body': { ...result }
+                    'body': { ...result[0] }
                 })
             }
            })
