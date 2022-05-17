@@ -5,7 +5,7 @@ const { insertAdvertQuery, findPropertyById, updateSoldQuery, selectPropertiesSq
 //update advert model
 const updateAdvert = async (property) => {
 
-    const { id, owner, status, price, state, city, address, type, image_url } = property;
+    const { id, owner, status, type, state, city, address, price, image_url } = property;
 
     let message = await new Promise((resolve, reject) => {
 
@@ -21,6 +21,10 @@ const updateAdvert = async (property) => {
 
                 } else {
                     
+                    if(result[0].owner){
+                        delete result[0].owner;
+                    }
+                    
                     if (result.length === 0) {
                         resolve({
                             'message': 'error',
@@ -28,6 +32,7 @@ const updateAdvert = async (property) => {
                         })
 
                     }
+
                     resolve({
                         'message': 'success',
                         'body': { ...result }
@@ -56,6 +61,10 @@ const selectSpecificAdvert = async (property) => {
                 })
 
             } else {
+               
+                if(result[0].owner){
+                    delete result[0].owner;
+                }
                 resolve({
                     'message': 'success',
                     'body': { ...result }
@@ -74,7 +83,7 @@ const selectPropertyType = async (property) => {
 
     let message = await new Promise((resolve, reject) => {
         connection.query(selectTypeSql, [type], (err, result) => {
-            console.log(result)
+           
             if (err) {
                 resolve({
                     'message': 'error',
@@ -82,6 +91,12 @@ const selectPropertyType = async (property) => {
                 })
 
             } else {
+                result.forEach((value, index)=>{
+                    if(value.owner){
+                        delete value.owner
+                    }
+                })
+
                 resolve({
                     'message': 'success',
                     'body': result
@@ -105,6 +120,11 @@ const selectAllProperties = async () => {
                 })
 
             } else {
+                result.forEach((value, index)=>{
+                    if(value.owner){
+                        delete value.owner
+                    }
+                })
 
                 resolve({
                     'message': 'success',
@@ -125,7 +145,7 @@ const deletePropertyFromDb = async (property) => {
     let message = await new Promise((resolve, reject) => {
         connection.query(selectPropertiesSql, [id], (err, initialResult) => {
             connection.query(deletePropertySql, [owner, id], (err, result) => {
-               
+              
                 if (err) {
                     resolve({
                         'message': 'error',
@@ -140,11 +160,18 @@ const deletePropertyFromDb = async (property) => {
                         })
                     }
                     if (initialResult[0]) {
+                        if(initialResult[0].owner){
+                            delete  initialResult[0].owner
+                        }
+
                         resolve({
                             'message': 'success',
                             'body': { ...initialResult[0] }
                         })
                     } else {
+                        if(initialResult.owner){
+                            delete  initialResult.owner
+                        }
                         resolve({
                             'message': 'success',
                             'body': { ...initialResult }
@@ -177,6 +204,10 @@ const markSold = async (property) => {
                 })
 
             } else {
+                
+                if(result[0].owner){
+                    delete result[0].owner
+                }
             
                 resolve({
                     'message': 'success',
@@ -208,6 +239,10 @@ const postAdvert = async (property) => {
                         })
 
                     } else {
+                        if(result[0].owner){
+                            delete result[0].owner
+                        }
+                        
                         resolve({
                             'message': 'success',
                             'body': { ...result }

@@ -13,12 +13,11 @@ router.post('/auth/signin', signin_post)
 
 router.post('/auth/signup', signup_post)
 
+router.get("/property/search?", viewType)
+
 router.get('/property/:id', viewSpecificAdvert )
 
 router.get('/property', viewProperties)
-
-router.get("/property/search?", viewType)
-
 
 
 //protected routes

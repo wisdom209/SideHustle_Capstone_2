@@ -12,7 +12,6 @@ const isAuth = (req, res, next) => {
     }
 
     if (isUser) {
-        console.log(isUser)
         next()
     } else {
         res.status(400).json({'status': 'error', 'error-message': 'unauthorized user' })
