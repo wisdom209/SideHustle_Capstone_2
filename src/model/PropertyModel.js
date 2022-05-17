@@ -1,18 +1,18 @@
 const connection = require('../config/db.config')
-const { insertAdvertQuery, findPropertyById, updateSoldQuery, selectPropertiesSql, deletePropertySql,selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findAdvertQuery} = require('../database/operations')
+const { insertAdvertQuery, findPropertyById, updateSoldQuery, selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery, selectTypeSql, selectAdvertSql, updateAdvertQuery, findUpdatedAdvertQuery } = require('../database/operations')
 
 
 //update advert model
 const updateAdvert = async (property) => {
 
-    const {id , owner, status, price, state, city, address, type, image_url } = property;
+    const { id, owner, status, price, state, city, address, type, image_url } = property;
 
     let message = await new Promise((resolve, reject) => {
-      
+
         connection.query(updateAdvertQuery, [owner, status, price, state, city, address, type, image_url, owner, id], (err, initialResult) => {
-          
-            connection.query(findAdvertQuery, [id],(err, result) => {
-               
+
+            connection.query(findUpdatedAdvertQuery, [id, owner], (err, result) => {
+
                 if (err) {
                     resolve({
                         'message': 'error',
@@ -20,6 +20,14 @@ const updateAdvert = async (property) => {
                     })
 
                 } else {
+                    
+                    if (result.length === 0) {
+                        resolve({
+                            'message': 'error',
+                            'body': ["User cannot update this advert or advert does not exist"]
+                        })
+
+                    }
                     resolve({
                         'message': 'success',
                         'body': { ...result }
@@ -34,13 +42,13 @@ const updateAdvert = async (property) => {
 
 //select specific advert model
 const selectSpecificAdvert = async (property) => {
- 
+
     const { id } = property;
 
-   
+
     let message = await new Promise((resolve, reject) => {
         connection.query(selectAdvertSql, [id], (err, result) => {
-           
+
             if (err) {
                 resolve({
                     'message': 'error',
@@ -61,11 +69,12 @@ const selectSpecificAdvert = async (property) => {
 
 //select property type model
 const selectPropertyType = async (property) => {
- 
+
     const { type } = property;
 
     let message = await new Promise((resolve, reject) => {
         connection.query(selectTypeSql, [type], (err, result) => {
+            console.log(result)
             if (err) {
                 resolve({
                     'message': 'error',
@@ -86,6 +95,7 @@ const selectPropertyType = async (property) => {
 
 //view all properties model
 const selectAllProperties = async () => {
+
     let message = await new Promise((resolve, reject) => {
         connection.query(selectAllPropertiesQuery, (err, result) => {
             if (err) {
@@ -95,7 +105,7 @@ const selectAllProperties = async () => {
                 })
 
             } else {
-                
+
                 resolve({
                     'message': 'success',
                     'body': result
@@ -109,48 +119,57 @@ const selectAllProperties = async () => {
 
 //delete a property model
 const deletePropertyFromDb = async (property) => {
- 
+
     const { id, owner } = property;
 
     let message = await new Promise((resolve, reject) => {
-        connection.query(selectPropertiesSql, [id], (err, initialResult)=>{
+        connection.query(selectPropertiesSql, [id], (err, initialResult) => {
             connection.query(deletePropertySql, [owner, id], (err, result) => {
+               
                 if (err) {
                     resolve({
                         'message': 'error',
                         'body': err
                     })
-    
+
                 } else {
-                    if(initialResult[0]){
+                    if(result.affectedRows === 0){
+                        resolve({
+                            'message' : 'error', 
+                            'body': 'User cannot delete this advert'
+                        })
+                    }
+                    if (initialResult[0]) {
                         resolve({
                             'message': 'success',
-                            'body': { ...initialResult[0]  }
+                            'body': { ...initialResult[0] }
                         })
-                    }else{
+                    } else {
                         resolve({
                             'message': 'success',
                             'body': { ...initialResult }
                         })
                     }
-                   
+
                 }
             }
             )
         })
 
-       
+
     })
     return message
 }
 
 //mark a property as sold model
 const markSold = async (property) => {
- 
-    const {  status,owner,id } = property;
+
+    const { status, owner, id } = property;
 
     let message = await new Promise((resolve, reject) => {
-        connection.query(updateSoldQuery, [ status, owner, id], (err, result) => {
+        connection.query(updateSoldQuery, [status, owner, id], (err, initialResult) => {
+           connection.query(findUpdatedAdvertQuery, [id, owner], (err,result )=>{
+
             if (err) {
                 resolve({
                     'message': 'error',
@@ -158,11 +177,13 @@ const markSold = async (property) => {
                 })
 
             } else {
+            
                 resolve({
                     'message': 'success',
-                    'body': { ...property  }
+                    'body': { ...result }
                 })
             }
+           })
         }
         )
     })
@@ -171,7 +192,7 @@ const markSold = async (property) => {
 
 //post a property advert model
 const postAdvert = async (property) => {
-    
+
     const { owner, status, price, state, city, address, type, image_url } = property;
 
     let message = await new Promise((resolve, reject) => {

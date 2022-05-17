@@ -1,11 +1,18 @@
 const { verifyAccessToken } = require("../utils/jwt_util")
 
 const isAuth = (req, res, next) => {
-    const token = req.cookies.token
+    const token = req.cookies.token;
+    
+    let isUser = null;
 
-    const isUser = verifyAccessToken(token)
+    try {
+       isUser =  verifyAccessToken(token, process.env.JWT_SECRET_KEY)
+    } catch (error) {
+        console.log(error)
+    }
 
     if (isUser) {
+        console.log(isUser)
         next()
     } else {
         res.status(400).json({'status': 'error', 'error-message': 'unauthorized user' })

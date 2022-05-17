@@ -1,4 +1,5 @@
-const { createUser,findUser } = require('../model/UserModel')
+const { createUser,findUser } = require('../model/UserModel');
+const { decodedJwt } = require('../utils/jwt_util');
 
 //user can sign in
 const signin_post = async (req, res, next) => {
@@ -12,8 +13,9 @@ const signin_post = async (req, res, next) => {
 
     let message = await findUser({email,password});
 
-    res.cookie('token', message.token)
+    res.cookie('token', message.body.token)
     
+  
     if(message.status == 'error'){
         res.status(400).json( {"status": "error", "error-message" : message.body})
     }else{
@@ -34,6 +36,7 @@ const signup_post = async (req, res, next) => {
     let result = await createUser(req.body);
 
     if(result.message == 'success'){
+
         res.cookie('token', result.token);
         res.status(200).json({"status" : "success", "data": result.body})
     }else{

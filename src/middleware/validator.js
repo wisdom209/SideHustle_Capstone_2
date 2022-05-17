@@ -1,9 +1,8 @@
 const email_validator = require('email-validator');
-const { PhoneNumberUtil } = require('google-libphonenumber');
-const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
 const isValidDetails = ((req, res, next) => {
 
+   
     let message = "";
     const { email, password, first_name, last_name, phone, address } = req.body
 
@@ -15,6 +14,7 @@ const isValidDetails = ((req, res, next) => {
 
     //function to validate password
     const isValidPassword = () => {
+        
         if (password.trim().length < 5) {
             message = "password must be more than 5 characters"
             return false;

@@ -10,7 +10,6 @@ const selectTypeSql = `SELECT * FROM property WHERE type = ?`
 
 let updateSoldQuery = `UPDATE property SET status = ? WHERE owner= ? and id = ?`
 
-
 let deletePropertySql = `DELETE FROM property WHERE owner = ? AND Id = ?`
 let selectPropertiesSql = 'SELECT * FROM PROPERTY WHERE id = ?'
 
@@ -21,12 +20,12 @@ const selectAdvertSql = `SELECT * FROM property WHERE id = ?`
 
 const updateAdvertQuery = `UPDATE property SET owner = ?, status = ?, price = ?, state = ?, city = ?, address = ?, type = ?, image_url = ? WHERE owner= ? AND id = ?`
 
-const findAdvertQuery = 'SELECT * FROM property WHERE id = ?'
+const findUpdatedAdvertQuery = 'SELECT * FROM property WHERE id = ? and owner = ?'
 
 
 
 module.exports = {
-    insertQuery, insertAdvertQuery, findPropertyById, findUserQuery, updateAdvertQuery, findAdvertQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery, selectTypeSql, selectAdvertSql
+    insertQuery, insertAdvertQuery, findPropertyById, findUserQuery, updateAdvertQuery, findUpdatedAdvertQuery, updateSoldQuery,selectPropertiesSql, deletePropertySql, selectAllPropertiesQuery, selectTypeSql, selectAdvertSql
 }
 
 

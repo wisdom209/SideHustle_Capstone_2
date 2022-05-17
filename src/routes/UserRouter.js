@@ -29,7 +29,7 @@ router.patch('/property/:id', updatePropertyAdvert )
 
 router.post('/property', postPropertyAdvert)
 
-router.put('/property/:id/sold', markAdvertSold)
+router.patch('/property/:id/sold', markAdvertSold)
 
 router.delete('/property/:id', deleteProperty)
 

@@ -1,11 +1,13 @@
 const jwt = require('jsonwebtoken')
 
-const createAccessToken = (secretCode, email) =>{
-    return jwt.sign({email}, secretCode, {expiresIn: 172800});
+const createAccessToken = (secretCode, id, email) =>{
+    return jwt.sign({id, email}, secretCode, {expiresIn: 172800});
 }
 
 const verifyAccessToken = (token, secretCode) =>{
     return jwt.verify(token,secretCode);
 }
 
-module.exports = {createAccessToken, verifyAccessToken}
+const decodedJwt= (token)=>jwt.decode(token)
+
+module.exports = {createAccessToken, verifyAccessToken, decodedJwt}

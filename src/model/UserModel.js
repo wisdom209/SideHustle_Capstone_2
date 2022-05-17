@@ -7,11 +7,11 @@ require('dotenv').config()
 
 //sign in a new user into db
 const findUser = async ({ email, password }) => {
-
+   
     let message = await new Promise((resolve, reject) => {
         connection.query(findUserQuery, [email], (err, result) => {
             if (err) throw err;
-
+           
 
             if (err) {
                 resolve({ 'result': 'something went wrong', 'body': err.sqlMessage, 'status': 'error' })
@@ -30,11 +30,11 @@ const findUser = async ({ email, password }) => {
     if (message.body == 'not registered') {
         return { 'body': 'not registered', 'status': 'error' }
     } else {
-        console.log('p:', password, message.body.password)
+        
         let comparePassword = await isPasswordSameAsHash(password, message.body.password);
 
         if (comparePassword) {
-            let token = createAccessToken(process.env.JWT_SECRET_KEY, email);
+            let token = createAccessToken(process.env.JWT_SECRET_KEY, message.body.id, email);
 
             return { 'status': 'succcess', 'body': { token, "id": message.body.id, "first_name": message.body.first_name, "last_name": message.body.last_name, email } };
         } else {
@@ -71,9 +71,9 @@ const createUser = async (user) => {
             } else {
                 resolve({
                     'message': 'success',
-                    'token': createAccessToken(process.env.JWT_SECRET_KEY, email),
+                    'token': createAccessToken(process.env.JWT_SECRET_KEY, result.insertId, email),
                     'body': {
-                        'token': createAccessToken(process.env.JWT_SECRET_KEY, email),
+                        'token': createAccessToken(process.env.JWT_SECRET_KEY, result.insertId, email),
                         'id': result.insertId,
                         first_name, last_name, email
                     }
