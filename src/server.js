@@ -3,8 +3,10 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const userRoutes = require('./routes/UserRouter')
 const fileUpload = require('express-fileupload')
+require('dotenv').config()
+
 const app = express();
-const port = 4000;
+const port = process.env.PORT;
 
 app.use(fileUpload({
     useTempFiles : true
